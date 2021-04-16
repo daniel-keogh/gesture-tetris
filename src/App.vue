@@ -1,22 +1,30 @@
 <template>
   <div id="app">
-    <router-view />
-    <!-- <camera
+    <template v-if="!modelLoaded">
+      <loading />
+    </template>
+    <template v-else>
+      <router-view />
+    </template>
+
+    <camera
+      v-show="modelLoaded"
       @ondetection="onDetection"
       @onloaded="onLoaded"
-      v-show="modelLoaded"
-    /> -->
+    />
   </div>
 </template>
 
 <script>
-// import Camera from "@/components/Camera.vue";
+import Camera from "@/components/Camera.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
   name: "App",
 
   components: {
-    // Camera,
+    Camera,
+    Loading,
   },
 
   data() {
