@@ -1,22 +1,22 @@
 <template>
   <div id="app">
     <router-view />
-    <camera
+    <!-- <camera
       @ondetection="onDetection"
       @onloaded="onLoaded"
       v-show="modelLoaded"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import Camera from "@/components/Camera.vue";
+// import Camera from "@/components/Camera.vue";
 
 export default {
   name: "App",
 
   components: {
-    Camera,
+    // Camera,
   },
 
   data() {
