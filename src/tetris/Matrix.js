@@ -1,17 +1,15 @@
-import { Colour } from './Utils';
-
 class Matrix {
     /**
      * Create a new matrix shape.
      *
      * @param {CanvasRenderingContext2D} ctx The canvas context.
-     * @param {Number[][]} matrix Defines how the shape looks. A `1` denotes a colour and `0` denotes an empty space.
      * @param {string} colour The shape's colour.
+     * @param {Number[][]} matrix Defines how the shape looks. A `1` denotes a block and `0` denotes an empty space.
      */
-    constructor(ctx, matrix, colour = Colour.random()) {
+    constructor(ctx, colour, matrix) {
         this.ctx = ctx;
-        this.matrix = matrix;
         this.colour = colour;
+        this.matrix = matrix;
     }
 
     /**

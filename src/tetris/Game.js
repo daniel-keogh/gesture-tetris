@@ -1,14 +1,12 @@
 import Grid from './Grid';
 import Player from './Player';
-import { TShape } from './Tetromino';
-import { Colour } from './Utils';
+import { createRandomTetromino } from './Tetromino';
 
 class Game {
     #lastFrame = 0;
     #dropCount = 0;
     #dropInterval = 1000; // 1 second
     #player = null;
-    #current = null;
     #grid = null;
 
     /**
@@ -23,15 +21,12 @@ class Game {
 
     /** Starts a new game. */
     start() {
-        this.ctx.fillStyle = Colour.background;
+        this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.ctx.scale(20, 20);
 
-        this.#current = new TShape(this.ctx);
-        this.#player = new Player(this.ctx, this.#current.matrix, {
-            x: 0,
-            y: 0,
-        });
+        const current = createRandomTetromino(this.ctx).matrix;
+        this.#player = new Player(this.ctx, current);
         this.#grid = new Grid(this.ctx, 12, 20, this.#player);
 
         // Start update loop
@@ -54,11 +49,11 @@ class Game {
     }
 
     draw() {
-        this.ctx.fillStyle = Colour.background;
+        this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0, 0, this.width, this.height);
 
-        this.#grid.draw({ x: 0, y: 0 });
-        this.#current.draw(this.#player.position);
+        this.#grid.draw();
+        this.#player.draw();
     }
 
     move(direction) {
@@ -95,7 +90,7 @@ class Game {
         if (this.#grid.collision()) {
             this.#player.position.y--;
             this.#grid.merge();
-            this.#player.position.y = 0;
+            this.resetPlayer();
         }
 
         this.#dropCount = 0;
@@ -116,6 +111,20 @@ class Game {
                 this.#player.position.x = position;
                 return;
             }
+        }
+    }
+
+    resetPlayer() {
+        this.#player.matrix = createRandomTetromino(this.ctx).matrix;
+        this.#player.position = {
+            x:
+                Math.floor(this.#grid.matrix[0].length / 2) -
+                Math.floor(this.#player.matrix[0].length / 2),
+            y: 0,
+        };
+
+        if (this.#grid.collision()) {
+            this.#grid.matrix.forEach((row) => row.fill(0));
         }
     }
 }
