@@ -3,7 +3,7 @@
     <b-navbar centered shadow>
       <template #brand>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <h1 class="subtitle is-5">Gestures Project</h1>
+          <h1 class="subtitle is-5">Tetris</h1>
         </b-navbar-item>
       </template>
 

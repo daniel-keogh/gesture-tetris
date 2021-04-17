@@ -118,6 +118,15 @@ export default {
 
     onNotsupported(e) {
       console.log("onNotsupported", e);
+
+      this.$buefy.dialog.alert({
+        title: "Error",
+        message: "Sorry, but your browser does not appear to be supported.",
+        type: "is-danger",
+        hasIcon: true,
+        icon: "alert-outline",
+        onConfirm: () => this.$router.go(-1),
+      });
     },
 
     onCameras(cameras) {

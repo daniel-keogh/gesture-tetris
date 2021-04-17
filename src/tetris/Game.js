@@ -1,3 +1,4 @@
+import Grid from './Grid';
 import Player from './Player';
 import { TShape } from './Tetromino';
 import { Colour } from './Utils';
@@ -8,10 +9,10 @@ class Game {
     #dropInterval = 1000; // 1 second
     #player = null;
     #current = null;
-    #gameWindow = [];
+    #grid = null;
 
     /**
-     * Creates a new game.
+     * Creates a new Game instance.
      * @param {CanvasRenderingContext2D} ctx A canvas context.
      */
     constructor(ctx) {
@@ -20,19 +21,24 @@ class Game {
         this.height = ctx.canvas.height;
     }
 
+    /** Starts a new game. */
     start() {
         this.ctx.fillStyle = Colour.background;
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.ctx.scale(20, 20);
 
         this.#current = new TShape(this.ctx);
-        this.#player = new Player({ x: 0, y: 0 }, this.#current.matrix);
-        this.#gameWindow = GameWindow.create(12, 20);
+        this.#player = new Player(this.ctx, this.#current.matrix, {
+            x: 0,
+            y: 0,
+        });
+        this.#grid = new Grid(this.ctx, 12, 20, this.#player);
 
         // Start update loop
         this.update();
     }
 
+    /** The game's update method. Gets called on every frame. */
     update(frame = 0) {
         const deltaTime = frame - this.#lastFrame;
 
@@ -44,30 +50,39 @@ class Game {
         }
 
         this.draw();
-
         requestAnimationFrame((frame) => this.update(frame));
     }
 
     draw() {
         this.ctx.fillStyle = Colour.background;
         this.ctx.fillRect(0, 0, this.width, this.height);
+
+        this.#grid.draw({ x: 0, y: 0 });
         this.#current.draw(this.#player.position);
     }
 
-    /**
-     * Handle a keyboard event.
-     * @param {KeyboardEvent} event
-     */
+    move(direction) {
+        this.#player.position.x += direction;
+
+        if (this.#grid.collision()) {
+            this.#player.position.x -= direction;
+        }
+    }
+
+    /** Handle keyboard events. */
     input(event) {
         switch (event.key) {
             case 'ArrowLeft':
-                this.#player.position.x--;
+                this.move(-1);
                 break;
             case 'ArrowRight':
-                this.#player.position.x++;
+                this.move(1);
                 break;
             case 'ArrowDown':
                 this.drop();
+                break;
+            case 'r':
+                this.rotate();
                 break;
             default:
                 break;
@@ -76,19 +91,32 @@ class Game {
 
     drop() {
         this.#player.position.y++;
-        this.#dropCount = 0;
-    }
-}
 
-class GameWindow {
-    static create(width, height) {
-        const matrix = [];
-
-        while (height--) {
-            matrix.push(new Array(width).fill(0));
+        if (this.#grid.collision()) {
+            this.#player.position.y--;
+            this.#grid.merge();
+            this.#player.position.y = 0;
         }
 
-        return matrix;
+        this.#dropCount = 0;
+    }
+
+    rotate() {
+        let offset = 1;
+        const position = this.#player.position.x;
+
+        this.#player.rotate();
+
+        while (this.#grid.collision()) {
+            this.#player.position.x += offset;
+            offset = -(offset + (offset > 0 ? 1 : -1));
+
+            if (offset > this.#player.matrix[0].length) {
+                this.#player.rotate(-1);
+                this.#player.position.x = position;
+                return;
+            }
+        }
     }
 }
 

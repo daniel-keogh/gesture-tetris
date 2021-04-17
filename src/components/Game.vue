@@ -14,16 +14,15 @@ export default {
     return {
       height: 400,
       width: 240,
-      ctx: null,
     };
   },
 
   mounted() {
     const canvas = this.$refs.gameCanvas;
-    this.ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     // Start the game
-    const game = new Game(this.ctx);
+    const game = new Game(ctx);
     game.start();
 
     window.addEventListener("keydown", (e) => game.input(e));
