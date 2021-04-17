@@ -25,8 +25,7 @@ class Game {
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.ctx.scale(20, 20);
 
-        const current = createRandomTetromino(this.ctx).matrix;
-        this.#player = new Player(this.ctx, current);
+        this.#player = new Player(createRandomTetromino(this.ctx));
         this.#grid = new Grid(this.ctx, 12, 20, this.#player);
 
         // Start update loop
@@ -115,7 +114,9 @@ class Game {
     }
 
     resetPlayer() {
-        this.#player.matrix = createRandomTetromino(this.ctx).matrix;
+        const current = createRandomTetromino(this.ctx);
+
+        this.#player.tetrimino = current;
         this.#player.position = {
             x:
                 Math.floor(this.#grid.matrix[0].length / 2) -
@@ -124,7 +125,7 @@ class Game {
         };
 
         if (this.#grid.collision()) {
-            this.#grid.matrix.forEach((row) => row.fill(0));
+            this.#grid.reset();
         }
     }
 }

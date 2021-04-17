@@ -1,32 +1,33 @@
 class Matrix {
     /**
-     * Create a new matrix shape.
-     *
+     * Creates a new matrix object.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
-     * @param {string} colour The shape's colour.
-     * @param {Number[][]} matrix Defines how the shape looks. A `1` denotes a block and `0` denotes an empty space.
+     * @param {Number[][]} matrix Defines how the shape looks. `N > 0` denotes a block and `0` denotes an empty space.
      */
-    constructor(ctx, colour, matrix) {
+    constructor(ctx, matrix) {
         this.ctx = ctx;
-        this.colour = colour;
         this.matrix = matrix;
     }
 
     /**
-     * Draws a shape to the canvas context.
+     * Draws a matrix to the canvas.
      * @param {{x: Number, y: Number}} offset Denotes the shape's offset from the top-left of the canvas.
      */
     draw(offset) {
         this.matrix.forEach((row, y) => {
             row.forEach((col, x) => {
                 if (col !== 0) {
-                    this.ctx.fillStyle = this.colour;
+                    this.ctx.fillStyle = Matrix.getColourByValue(col);
                     this.ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
                 }
             });
         });
     }
 
+    /**
+     * Rotate this object.
+     * @param {Number} direction Determines the direction to rotate in.
+     */
     rotate(direction) {
         for (let y = 0; y < this.matrix.length; y++) {
             for (let x = 0; x < y; x++) {
@@ -42,6 +43,20 @@ class Matrix {
         } else {
             this.matrix.reverse();
         }
+    }
+
+    static getColourByValue(value) {
+        const colours = [
+            null,
+            '#A000F0',
+            '#F0F000',
+            '#0000F0',
+            '#F0A000',
+            '#00F0F0',
+            '#00F000',
+            '#F00000',
+        ];
+        return colours[value];
     }
 }
 

@@ -1,18 +1,20 @@
-import Matrix from './Matrix';
-
-class Player extends Matrix {
-    /**
-     * Creates a new Player object.
-     * @param {{x: Number, y: Numner}} position The player's current position.
-     * @param {Number[][]} matrix The game model.
-     */
-    constructor(ctx, matrix) {
-        super(ctx, 'red', matrix);
+class Player {
+    /** Creates a new Player object. */
+    constructor(tetrimino) {
+        this.tetrimino = tetrimino;
         this.position = { x: 0, y: 0 };
     }
 
+    get matrix() {
+        return this.tetrimino.matrix;
+    }
+
     draw() {
-        super.draw(this.position);
+        this.tetrimino.draw(this.position);
+    }
+
+    rotate(direction) {
+        this.tetrimino.rotate(direction);
     }
 }
 

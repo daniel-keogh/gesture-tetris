@@ -9,7 +9,7 @@ class Grid extends Matrix {
      * @param {Player} player
      */
     constructor(ctx, width, height, player) {
-        super(ctx, 'black', []);
+        super(ctx, []);
         this.player = player;
 
         while (height--) {
@@ -53,6 +53,10 @@ class Grid extends Matrix {
 
     draw() {
         super.draw({ x: 0, y: 0 });
+    }
+
+    reset() {
+        this.matrix.forEach((row) => row.fill(0));
     }
 }
 
