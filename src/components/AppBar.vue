@@ -2,14 +2,21 @@
   <header>
     <b-navbar centered shadow>
       <template #brand>
-        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+        <b-navbar-item tag="router-link" to="/">
           <h1 class="subtitle is-5">Tetris</h1>
         </b-navbar-item>
       </template>
 
       <template #start>
-        <b-navbar-item active href="#">Home</b-navbar-item>
-        <b-navbar-item href="#">Help</b-navbar-item>
+        <b-navbar-item
+          v-for="item in items"
+          :key="item.title"
+          :active="item.active"
+          :to="item.to"
+          tag="router-link"
+        >
+          {{ item.title }}
+        </b-navbar-item>
       </template>
 
       <template #end>
@@ -34,6 +41,27 @@
 <script>
 export default {
   name: "AppBar",
+
+  data() {
+    return {
+      items: [
+        {
+          active: false,
+          title: "Home",
+          to: "/",
+        },
+        {
+          active: false,
+          title: "Help",
+          to: "/help",
+        },
+      ],
+    };
+  },
+
+  mounted() {
+    this.items.find((n) => n.to === this.$route.name);
+  },
 };
 </script>
 
