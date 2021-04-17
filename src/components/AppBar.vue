@@ -59,8 +59,10 @@ export default {
     };
   },
 
-  mounted() {
-    this.items.find((n) => n.to === this.$route.name);
+  beforeMount() {
+    this.items.forEach((n) => {
+      n.active = n.title === this.$route.name;
+    });
   },
 };
 </script>
