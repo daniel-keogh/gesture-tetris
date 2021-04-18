@@ -1,5 +1,11 @@
 <template>
-  <canvas ref="gameCanvas" :height="height" :width="width"></canvas>
+  <div>
+    <div class="score-container">
+      <p class="subtitle is-3 mb-2">Score:</p>
+      <p class="subtitle is-3 mb-2">{{ score }}</p>
+    </div>
+    <canvas ref="gameCanvas" :height="height" :width="width"></canvas>
+  </div>
 </template>
 
 <script>
@@ -7,6 +13,10 @@ import { Grid, Player, createRandomTetromino } from "../tetris";
 
 export default {
   name: "Game",
+
+  props: {
+    isPaused: Boolean,
+  },
 
   data() {
     return {
@@ -32,19 +42,23 @@ export default {
     const canvas = this.$refs.gameCanvas;
     this.ctx = canvas.getContext("2d");
 
-    // Start the game
+    this.ctx.fillStyle = this.fillStyle;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+    this.ctx.scale(20, 20);
+
     this.start();
   },
 
   methods: {
     /** Starts a new game. */
     start() {
-      this.ctx.fillStyle = this.fillStyle;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-      this.ctx.scale(20, 20);
-
       this.player = new Player(createRandomTetromino(this.ctx));
       this.grid = new Grid(this.ctx, 12, 20, this.player);
+
+      this.player.position = {
+        x: this.calculateCenter(),
+        y: 0,
+      };
 
       window.addEventListener("keydown", (e) => this.input(e));
 
@@ -59,12 +73,15 @@ export default {
       this.lastFrame = frame;
       this.drop.previous += deltaTime;
 
-      // Check if it's time for another drop
-      if (this.drop.previous > this.drop.interval) {
-        this.dropPiece();
+      if (!this.isPaused) {
+        // Check if it's time for another drop
+        if (this.drop.previous > this.drop.interval) {
+          this.dropPiece();
+        }
+
+        this.draw();
       }
 
-      this.draw();
       requestAnimationFrame((frame) => this.update(frame));
     },
 
@@ -154,7 +171,7 @@ export default {
 
       // if a collision happens immediately, then the grid is full
       if (this.grid.collision()) {
-        this.grid.reset();
+        this.$emit("gameover", this.score);
       }
     },
 
@@ -164,8 +181,20 @@ export default {
         Math.floor(this.player.matrix[0].length / 2)
       );
     },
+
+    restart() {
+      this.resetPlayer();
+      this.grid.reset();
+      this.score = 0;
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  font-family: "VT323";
+}
+</style>
