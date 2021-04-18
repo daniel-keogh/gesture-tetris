@@ -4,8 +4,10 @@ import { createRandomTetromino } from './Tetromino';
 
 class Game {
     #lastFrame = 0;
-    #dropCount = 0;
-    #dropInterval = 1000; // 1 second
+    #drop = {
+        previous: 0, // Amount of time since the previous drop
+        interval: 1000, // 1 second
+    };
     #player = null;
     #grid = null;
 
@@ -37,9 +39,10 @@ class Game {
         const deltaTime = frame - this.#lastFrame;
 
         this.#lastFrame = frame;
-        this.#dropCount += deltaTime;
+        this.#drop.previous += deltaTime;
 
-        if (this.#dropCount > this.#dropInterval) {
+        // Check if it's time for another drop
+        if (this.#drop.previous > this.#drop.interval) {
             this.drop();
         }
 
@@ -55,6 +58,7 @@ class Game {
         this.#player.draw();
     }
 
+    /** Moves the player left or right. */
     move(direction) {
         this.#player.position.x += direction;
 
@@ -83,24 +87,34 @@ class Game {
         }
     }
 
+    /** Drops the player down by one space. */
     drop() {
         this.#player.position.y++;
 
+        // Check for collisions
         if (this.#grid.collision()) {
             this.#player.position.y--;
             this.#grid.merge();
-            this.resetPlayer();
+            this.resetPlayer(); // Spawn another piece
+
+            // Update score
+            this.score += this.#grid.sweep();
         }
 
-        this.#dropCount = 0;
+        this.#drop.previous = 0;
     }
 
+    /**
+     * Rotate's the player's piece.
+     *
+     */
     rotate() {
-        let offset = 1;
         const position = this.#player.position.x;
-
         this.#player.rotate();
 
+        // Prevent pieces from rotating outside the edge of the board
+        // Reference: https://www.youtube.com/watch?v=H2aW5V46khA
+        let offset = 1;
         while (this.#grid.collision()) {
             this.#player.position.x += offset;
             offset = -(offset + (offset > 0 ? 1 : -1));
@@ -113,20 +127,27 @@ class Game {
         }
     }
 
+    /** Spawns a new piece. */
     resetPlayer() {
         const current = createRandomTetromino(this.ctx);
 
         this.#player.tetrimino = current;
         this.#player.position = {
-            x:
-                Math.floor(this.#grid.matrix[0].length / 2) -
-                Math.floor(this.#player.matrix[0].length / 2),
+            x: this.calculateCenter(),
             y: 0,
         };
 
+        // if a collision happens immediately, then the grid is full
         if (this.#grid.collision()) {
             this.#grid.reset();
         }
+    }
+
+    calculateCenter() {
+        return (
+            Math.floor(this.#grid.matrix[0].length / 2) -
+            Math.floor(this.#player.matrix[0].length / 2)
+        );
     }
 }
 

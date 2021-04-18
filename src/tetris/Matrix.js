@@ -1,3 +1,6 @@
+/**
+ * Represents a 2x2 matrix that can be drawn to the canvas.
+ */
 class Matrix {
     /**
      * Creates a new matrix object.
@@ -12,39 +15,24 @@ class Matrix {
     /**
      * Draws a matrix to the canvas.
      * @param {{x: Number, y: Number}} offset Denotes the shape's offset from the top-left of the canvas.
+     * @param {string | CanvasGradient | CanvasPattern} strokeStyle The matrix's stroke style, defaults to 'white'.
      */
     draw(offset) {
         this.matrix.forEach((row, y) => {
             row.forEach((col, x) => {
                 if (col !== 0) {
+                    const shape = [x + offset.x, y + offset.y, 1, 1];
                     this.ctx.fillStyle = Matrix.getColourByValue(col);
-                    this.ctx.fillRect(x + offset.x, y + offset.y, 1, 1);
+                    this.ctx.strokeStyle = 'white';
+                    this.ctx.lineWidth = 0.1;
+                    this.ctx.fillRect(...shape);
+                    this.ctx.strokeRect(...shape);
                 }
             });
         });
     }
 
-    /**
-     * Rotate this object.
-     * @param {Number} direction Determines the direction to rotate in.
-     */
-    rotate(direction) {
-        for (let y = 0; y < this.matrix.length; y++) {
-            for (let x = 0; x < y; x++) {
-                [this.matrix[x][y], this.matrix[y][x]] = [
-                    this.matrix[y][x],
-                    this.matrix[x][y],
-                ];
-            }
-        }
-
-        if (direction > 0) {
-            this.matrix.forEach((row) => row.reverse());
-        } else {
-            this.matrix.reverse();
-        }
-    }
-
+    /** Maps each `value` to a colour. */
     static getColourByValue(value) {
         const colours = [
             null,

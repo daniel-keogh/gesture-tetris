@@ -1,30 +1,30 @@
 <template>
   <div id="app">
-    <template v-if="!modelLoaded">
-      <loading message="Loading hand detection model..." />
-    </template>
-    <template v-else>
-      <router-view />
-    </template>
+    <!-- <template v-if="!modelLoaded"> -->
+    <!-- <loading message="Loading hand detection model..." /> -->
+    <!-- </template> -->
+    <!-- <template v-else> -->
+    <router-view />
+    <!-- </template> -->
 
-    <camera
+    <!-- <camera
       v-show="modelLoaded"
       @ondetection="onDetection"
       @onloaded="onLoaded"
-    />
+    /> -->
   </div>
 </template>
 
 <script>
-import Camera from "@/components/Camera.vue";
-import Loading from "@/components/Loading.vue";
+// import Camera from "@/components/Camera.vue";
+// import Loading from "@/components/Loading.vue";
 
 export default {
   name: "App",
 
   components: {
-    Camera,
-    Loading,
+    // Camera,
+    // Loading,
   },
 
   data() {

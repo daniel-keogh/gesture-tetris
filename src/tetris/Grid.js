@@ -12,6 +12,7 @@ class Grid extends Matrix {
         super(ctx, []);
         this.player = player;
 
+        // Fill the grid with zero's
         while (height--) {
             this.matrix.push(new Array(width).fill(0));
         }
@@ -19,7 +20,7 @@ class Grid extends Matrix {
 
     /**
      * Detects a collision.
-     * @returns `true` if the player has collided with something & `falase` otherwise.
+     * @returns `true` if the player has collided with something & `false` otherwise.
      */
     collision() {
         const [matrix, offset] = [this.player.matrix, this.player.position];
@@ -39,6 +40,7 @@ class Grid extends Matrix {
         return false;
     }
 
+    /** Merge the player's position into the grid. */
     merge() {
         this.player.matrix.forEach((row, y) => {
             row.forEach((col, x) => {
@@ -53,6 +55,31 @@ class Grid extends Matrix {
 
     draw() {
         super.draw({ x: 0, y: 0 });
+    }
+
+    /**
+     * Sweep the filled rows.
+     * Reference: https://www.youtube.com/watch?v=H2aW5V46khA
+     * @returns The number of rows spept.
+     */
+    sweep() {
+        let count = 0;
+
+        outer: for (let y = this.matrix.length - 1; y > 0; y--) {
+            for (let x = 0; x < this.matrix[y].length; x++) {
+                if (this.matrix[y][x] === 0) {
+                    continue outer; // row is not filled
+                }
+            }
+
+            // Replace filled row(s) with zeros & push above pieces down
+            const row = this.matrix.splice(y, 1)[0].fill(0);
+            this.matrix.unshift(row);
+            count++;
+            y++;
+        }
+
+        return count;
     }
 
     reset() {

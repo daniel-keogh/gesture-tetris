@@ -25,7 +25,7 @@ import * as handpose from "@tensorflow-models/handpose";
 import { Gestures, GestureEstimator } from "fingerpose";
 
 import { drawHand } from "../utils/handmesh";
-import CustomGestures from "../utils/gestures";
+// import CustomGestures from "../utils/gestures";
 
 export default {
   name: "Camera",
@@ -84,11 +84,11 @@ export default {
           const GE = new GestureEstimator([
             Gestures.VictoryGesture,
             Gestures.ThumbsUpGesture,
-            CustomGestures.MoveDownGesture,
-            CustomGestures.MoveRightGesture,
-            CustomGestures.MoveLeftGesture,
-            CustomGestures.RotateLeftGesture,
-            CustomGestures.RotateRightGesture,
+            // CustomGestures.MoveDownGesture,
+            // CustomGestures.MoveRightGesture,
+            // CustomGestures.MoveLeftGesture,
+            // CustomGestures.RotateLeftGesture,
+            // CustomGestures.RotateRightGesture,
           ]);
 
           const estimation = GE.estimate(hand[0].landmarks, 8);

@@ -1,6 +1,34 @@
 import Matrix from './Matrix';
 
-class TShape extends Matrix {
+/**
+ * Base class for all the other tetris shapes.
+ */
+class Tetromino extends Matrix {
+    /**
+     * Rotates this object.
+     * Reference: https://www.youtube.com/watch?v=H2aW5V46khA
+     * @param {Number} direction Determines the direction to rotate in.
+     */
+    rotate(direction) {
+        // Convert each row to a column
+        for (let y = 0; y < this.matrix.length; y++) {
+            for (let x = 0; x < y; x++) {
+                [this.matrix[x][y], this.matrix[y][x]] = [
+                    this.matrix[y][x],
+                    this.matrix[x][y],
+                ];
+            }
+        }
+
+        if (direction > 0) {
+            this.matrix.forEach((row) => row.reverse());
+        } else {
+            this.matrix.reverse();
+        }
+    }
+}
+
+class TShape extends Tetromino {
     /**
      * Creates a T-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -14,7 +42,7 @@ class TShape extends Matrix {
     }
 }
 
-class OShape extends Matrix {
+class OShape extends Tetromino {
     /**
      * Creates a O-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -27,7 +55,7 @@ class OShape extends Matrix {
     }
 }
 
-class LShape extends Matrix {
+class LShape extends Tetromino {
     /**
      * Creates a L-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -41,7 +69,7 @@ class LShape extends Matrix {
     }
 }
 
-class JShape extends Matrix {
+class JShape extends Tetromino {
     /**
      * Creates a J-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -55,7 +83,7 @@ class JShape extends Matrix {
     }
 }
 
-class IShape extends Matrix {
+class IShape extends Tetromino {
     /**
      * Creates a I-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -70,7 +98,7 @@ class IShape extends Matrix {
     }
 }
 
-class SShape extends Matrix {
+class SShape extends Tetromino {
     /**
      * Creates a S-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -84,7 +112,7 @@ class SShape extends Matrix {
     }
 }
 
-class ZShape extends Matrix {
+class ZShape extends Tetromino {
     /**
      * Creates a Z-shaped Tetromino.
      * @param {CanvasRenderingContext2D} ctx The canvas context.
@@ -99,17 +127,18 @@ class ZShape extends Matrix {
 }
 
 /**
- * Factory function that creates an instance of a random tetromino object.
+ * Creates an instance of a random Tetromino object.
  * @param {CanvasRenderingContext2D} ctx The canvas context.
- * @returns A random tetromino object.
+ * @returns {Tetromino} A random Tetromino object.
  */
 function createRandomTetromino(ctx) {
     const pieces = [IShape, JShape, LShape, OShape, SShape, TShape, ZShape];
-    const Tetromino = pieces[Math.floor(Math.random() * pieces.length)];
-    return new Tetromino(ctx);
+    const T = pieces[Math.floor(Math.random() * pieces.length)];
+    return new T(ctx);
 }
 
 export {
+    Tetromino,
     IShape,
     JShape,
     LShape,
