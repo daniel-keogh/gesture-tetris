@@ -16,7 +16,7 @@ export default {
   props: {
     message: {
       type: String,
-      default: "Loading the model...",
+      default: "Loading...",
     },
   },
 

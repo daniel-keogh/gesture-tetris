@@ -25,6 +25,7 @@ import * as handpose from "@tensorflow-models/handpose";
 import { Gestures, GestureEstimator } from "fingerpose";
 
 import { drawHand } from "../utils/handmesh";
+import CustomGestures from "../utils/gestures";
 
 export default {
   name: "Camera",
@@ -83,6 +84,11 @@ export default {
           const GE = new GestureEstimator([
             Gestures.VictoryGesture,
             Gestures.ThumbsUpGesture,
+            CustomGestures.MoveDownGesture,
+            CustomGestures.MoveRightGesture,
+            CustomGestures.MoveLeftGesture,
+            CustomGestures.RotateLeftGesture,
+            CustomGestures.RotateRightGesture,
           ]);
 
           const estimation = GE.estimate(hand[0].landmarks, 8);
@@ -114,10 +120,22 @@ export default {
 
     onError(e) {
       console.log("onError", e);
+
+      this.$emit("onloaded");
+
+      this.$buefy.dialog.alert({
+        title: "Error",
+        message: "Sorry, but we are not able to access your webcam.",
+        type: "is-danger",
+        hasIcon: true,
+        icon: "alert-outline",
+      });
     },
 
     onNotsupported(e) {
       console.log("onNotsupported", e);
+
+      this.$emit("onloaded");
 
       this.$buefy.dialog.alert({
         title: "Error",
@@ -150,7 +168,7 @@ export default {
 <style lang="scss" scoped>
 canvas,
 video {
-  transform: scale(0.6);
+  transform: scale(-0.6, 0.6);
   translate: 20% 20%;
   position: absolute;
   bottom: 0;
