@@ -214,7 +214,7 @@ export default {
     transform: scale(-1, 1);
     font-size: 2rem;
     text-align: left;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
 
     position: relative;
     top: 0;

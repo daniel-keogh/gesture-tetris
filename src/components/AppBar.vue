@@ -26,7 +26,7 @@
               class="is-light"
               icon-left="github"
               tag="a"
-              href="https://github.com/daniel-keogh/gestures-project"
+              href="https://github.com/daniel-keogh/gesture-tetris"
               target="_blank"
             >
               GitHub

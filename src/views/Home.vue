@@ -1,20 +1,22 @@
 <template>
   <div class="home">
     <app-bar />
-    <main>
-      <game ref="game" :isPaused="isPaused" @gameover="onGameOver" />
-      <div>
-        <b-button
-          type="is-primary"
-          class="mt-3 mb-6"
-          expanded
-          @click="onNewGame"
-        >
-          New Game {{ isPaused ? "👍" : "" }}
-        </b-button>
-        <h3 class="subtitle is-1 has-text-center" v-if="isGameOver">
-          Game Over!
-        </h3>
+    <main class="mx-2">
+      <div class="game-container">
+        <game ref="game" :isPaused="isPaused" @gameover="onGameOver" />
+        <div>
+          <b-button
+            type="is-primary"
+            class="mt-3 mb-6"
+            expanded
+            @click="onNewGame"
+          >
+            New Game {{ isPaused ? "👍" : "" }}
+          </b-button>
+          <h3 class="subtitle is-1 has-text-center" v-if="isGameOver">
+            Game Over!
+          </h3>
+        </div>
       </div>
     </main>
   </div>
@@ -69,7 +71,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-main {
+.game-container {
   width: 360px;
   margin-top: 2%;
   margin-left: auto;
@@ -79,6 +81,6 @@ main {
 }
 
 h3 {
-  font-family: "VT323";
+  font-family: "VT323", monospace;
 }
 </style>
