@@ -43,7 +43,12 @@ export default {
 
       drop: {
         previous: 0, // Amount of time since the previous drop
-        interval: 750, // 3/4 second
+        delay: 750, // 3/4 second
+      },
+
+      gestureInput: {
+        previous: 0, // Amount of time since the previous gesture movement
+        delay: 750, // Delay between gesture inputs
       },
 
       lastFrame: 0,
@@ -54,7 +59,7 @@ export default {
   created() {
     // Listen for gesture events
     GestureEventBus.$on("on-detection", (gesture) => {
-      this.input(gesture.name);
+      this.onGetureInput(gesture.name);
     });
   },
 
@@ -85,7 +90,7 @@ export default {
         y: 0,
       };
 
-      window.addEventListener("keydown", (e) => this.input(e.key));
+      window.addEventListener("keydown", (e) => this.onKeyInput(e.key));
 
       // Start update loop
       this.update();
@@ -96,11 +101,13 @@ export default {
       const deltaTime = frame - this.lastFrame;
 
       this.lastFrame = frame;
+
       this.drop.previous += deltaTime;
+      this.gestureInput.previous += deltaTime;
 
       if (!this.isPaused) {
         // Check if it's time for another drop
-        if (this.drop.previous > this.drop.interval) {
+        if (this.drop.previous > this.drop.delay) {
           this.dropPiece();
         }
 
@@ -127,8 +134,8 @@ export default {
       }
     },
 
-    /** Handle keyboard & gesture events. */
-    input(action) {
+    /** Handle keyboard events. */
+    onKeyInput(action) {
       switch (action) {
         case "ArrowLeft":
         case CustomGestures.MoveRightGesture.name:
@@ -152,6 +159,33 @@ export default {
           break;
         default:
           break;
+      }
+    },
+
+    /** Handle gesture events. */
+    onGetureInput(action) {
+      if (this.gestureInput.previous > this.gestureInput.delay) {
+        switch (action) {
+          case CustomGestures.MoveRightGesture.name:
+            this.move(-1);
+            break;
+          case CustomGestures.MoveLeftGesture.name:
+            this.move(1);
+            break;
+          case Gestures.ThumbsUpGesture.name:
+            this.dropPiece();
+            break;
+          // case CustomGestures.RotateRightGesture.name:
+          //   this.rotate(-1);
+          //   break;
+          case Gestures.VictoryGesture.name:
+            this.rotate(1);
+            break;
+          default:
+            break;
+        }
+
+        this.gestureInput.previous = 0;
       }
     },
 

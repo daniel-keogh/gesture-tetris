@@ -67,10 +67,10 @@ export default {
         switch (this.detection.name) {
           // Flip left & right
           case CustomGestures.MoveRightGesture.name:
-            name = "Move Right";
+            name = "Move Left";
             break;
           case CustomGestures.MoveLeftGesture.name:
-            name = "Move Left";
+            name = "Move Right";
             break;
 
           case Gestures.ThumbsUpGesture.name:
