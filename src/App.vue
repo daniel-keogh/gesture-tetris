@@ -7,7 +7,11 @@
       <router-view />
     </template>
 
-    <camera v-show="modelLoaded" @on-loaded="modelLoaded = true" />
+    <camera
+      v-show="modelLoaded && !minimizeCamera"
+      @on-loaded="modelLoaded = true"
+      @on-minimize="minimizeCamera = true"
+    />
   </div>
 </template>
 
@@ -26,6 +30,7 @@ export default {
   data() {
     return {
       modelLoaded: false,
+      minimizeCamera: false,
     };
   },
 };

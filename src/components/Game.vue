@@ -138,23 +138,18 @@ export default {
     onKeyInput(action) {
       switch (action) {
         case "ArrowLeft":
-        case CustomGestures.MoveRightGesture.name:
           this.move(-1);
           break;
         case "ArrowRight":
-        case CustomGestures.MoveLeftGesture.name:
           this.move(1);
           break;
         case "ArrowDown":
-        case Gestures.ThumbsUpGesture.name:
           this.dropPiece();
           break;
         case "e":
-          // case CustomGestures.RotateRightGesture.name:
           this.rotate(-1);
           break;
         case "r":
-        case Gestures.VictoryGesture.name:
           this.rotate(1);
           break;
         default:

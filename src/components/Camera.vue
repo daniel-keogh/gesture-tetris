@@ -1,11 +1,11 @@
 <template>
   <div class="camera card">
     <div class="camera__most-recent" v-show="mostRecent.name.length > 0">
-      <p class="subtitle is-2 mb-0">
+      <p class="subtitle is-4 mb-0">
         {{ mostRecent.name }}
       </p>
 
-      <p class="subtitle is-2 mb-0">
+      <p class="subtitle is-4 mb-0">
         {{ mostRecent.confidence }}
       </p>
     </div>
@@ -22,6 +22,17 @@
       @camera-change="onCameraChange"
     />
     <canvas ref="canvas" :height="height" :width="width" />
+
+    <div class="camera__hide">
+      <b-button
+        type="is-danger"
+        outlined
+        icon-left="eye-off"
+        @click="$emit('on-minimize')"
+      >
+        Hide
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -216,15 +227,14 @@ export default {
 
 <style lang="scss" scoped>
 .camera {
-  transform: scale(-0.6, 0.6);
-  translate: 20% 20%;
+  transform: scale(-1, 1);
 
   position: fixed;
   bottom: 0;
   right: 0;
 
-  width: 640px;
-  height: 480px;
+  width: calc(640px * 0.6);
+  height: calc(480px * 0.6);
 
   &__most-recent {
     transform: scale(-1, 1);
@@ -233,19 +243,48 @@ export default {
     top: 0;
     left: 0;
 
-    font-size: 2rem;
     text-align: left;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.85rem;
     z-index: 11;
 
     display: flex;
     justify-content: space-between;
 
-    background-color: rgba($color: black, $alpha: 0.2);
+    background-color: rgba($color: black, $alpha: 0.25);
 
     p {
       color: white;
     }
+  }
+
+  &__hide {
+    & > * {
+      display: none;
+    }
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transform: scale(-1, 1);
+    z-index: 20;
+
+    transition: all 0.5s;
+
+    &:hover {
+      background-color: rgba($color: black, $alpha: 0.5);
+
+      & > * {
+        display: inline-flex;
+      }
+    }
+
+    height: 100%;
+    width: 100%;
   }
 
   @media (max-width: 1024px) {
@@ -255,6 +294,8 @@ export default {
 
 canvas,
 video {
+  height: 100%;
+  width: 100%;
   position: fixed;
   bottom: 0;
   right: 0;

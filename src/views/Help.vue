@@ -17,7 +17,7 @@
           {{ props.row.description }}
         </b-table-column>
 
-        <b-table-column field="icon" label="Icon" width="40" v-slot="props">
+        <b-table-column field="icon" label="Icon" width="60" v-slot="props">
           <span class="gesture-icon">
             {{ props.row.icon }}
           </span>
@@ -45,6 +45,11 @@ export default {
           description:
             "Starts a new game if there is currently not one in progress. Moves a piece downwards if a game is in progress.",
           icon: "👍",
+        },
+        {
+          gesture: "Thumbs-down.",
+          description: "Moves a piece downwards.",
+          icon: "👎",
         },
         {
           gesture: "Index pointing left.",
