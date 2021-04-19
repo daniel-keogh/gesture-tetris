@@ -1,5 +1,10 @@
 <template>
-  <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="false">
+  <b-loading
+    :is-full-page="isFullPage"
+    v-model="isLoading"
+    :can-cancel="false"
+    class="loading"
+  >
     <div>
       <b-icon class="loading-icon"> </b-icon>
       <div class="loading-message">
@@ -30,6 +35,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loading {
+  text-align: center;
+}
+
 .loading-message {
   margin-top: 5rem;
 }

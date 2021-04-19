@@ -1,6 +1,8 @@
 <template>
-  <div class="camera">
-    <p class="camera__most-recent">{{ mostRecent }}</p>
+  <div class="camera card">
+    <p class="camera__most-recent subtitle is-2" v-show="mostRecent.length > 0">
+      {{ mostRecent }}
+    </p>
     <web-cam
       ref="webcam"
       :height="height"
@@ -96,7 +98,7 @@ export default {
       // Model has been loaded
       this.$emit("on-loaded");
 
-      this.detect(model);
+      // this.detect(model);
     },
 
     async detect(model) {
@@ -186,7 +188,7 @@ export default {
 .camera {
   transform: scale(-0.6, 0.6);
   translate: 20% 20%;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   width: 640px;
@@ -195,16 +197,26 @@ export default {
   &__most-recent {
     transform: scale(-1, 1);
     font-size: 2rem;
+    text-align: left;
+    padding: 0.5rem;
+
     position: relative;
-    top: -3rem;
+    top: 0;
     left: 0;
+
+    color: white;
+    background-color: rgba($color: black, $alpha: 0.2);
     z-index: 11;
+  }
+
+  @media (max-width: 1024px) {
+    display: none;
   }
 }
 
 canvas,
 video {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   z-index: 10;
