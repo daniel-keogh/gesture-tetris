@@ -12,6 +12,7 @@
 import { GestureEventBus } from "../main";
 import { Grid, Player, createRandomTetromino } from "../tetris";
 import CustomGestures from "../utils/gestures";
+import { Gestures } from "fingerpose";
 
 export default {
   name: "Game",
@@ -138,7 +139,7 @@ export default {
           this.move(1);
           break;
         case "ArrowDown":
-        case CustomGestures.MoveDownGesture.name:
+        case Gestures.ThumbsUpGesture.name:
           this.dropPiece();
           break;
         case "e":
@@ -146,7 +147,7 @@ export default {
           this.rotate(-1);
           break;
         case "r":
-          // case CustomGestures.RotateRightGesture.name:
+        case Gestures.VictoryGesture.name:
           this.rotate(1);
           break;
         default:

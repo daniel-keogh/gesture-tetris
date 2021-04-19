@@ -30,6 +30,7 @@ import AppBar from "@/components/AppBar";
 import Game from "@/components/Game";
 
 import { GestureEventBus } from "../main";
+import { Gestures } from "fingerpose";
 
 export default {
   name: "Home",
@@ -50,7 +51,7 @@ export default {
   created() {
     // Listen for a "thumbs-up" gesture to start the game
     GestureEventBus.$on("on-detection", (gesture) => {
-      if (gesture.name === "thumbs_up" && this.isPaused) {
+      if (gesture.name === Gestures.ThumbsUpGesture.name && this.isPaused) {
         if (gesture.confidence >= this.startMinConfidence) {
           this.onNewGame();
         }

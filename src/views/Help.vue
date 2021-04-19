@@ -43,7 +43,7 @@ export default {
         {
           gesture: "Thumbs-up.",
           description:
-            "Starts a new game if there is currently not one in progress.",
+            "Starts a new game if there is currently not one in progress. Moves a piece downwards if a game is in progress.",
           icon: "👍",
         },
         {
@@ -55,11 +55,6 @@ export default {
           gesture: "Index pointing right.",
           description: "Moves a piece to the right.",
           icon: "👉",
-        },
-        {
-          gesture: "Okay sign.",
-          description: "Moves a piece downwards.",
-          icon: "👌",
         },
         {
           gesture: "Upwards-pointing index finger.",

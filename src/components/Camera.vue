@@ -27,6 +27,7 @@
 
 <script>
 import { WebCam } from "vue-web-cam";
+import { DialogProgrammatic as Dialog } from "buefy";
 
 import { GestureEventBus } from "../main";
 
@@ -63,21 +64,31 @@ export default {
       let name = "";
 
       if (this.detection.name) {
-        // Flip left & right
-        if (this.detection.name === CustomGestures.MoveRightGesture.name) {
-          name = "Move Left";
-        } else if (
-          this.detection.name === CustomGestures.MoveLeftGesture.name
-        ) {
-          name = "Move Right";
-        } else {
-          // Capitalise the first letter of each word and remove underscores
-          name = this.detection.name
-            .replace("_", " ")
-            .toLowerCase()
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
+        switch (this.detection.name) {
+          // Flip left & right
+          case CustomGestures.MoveRightGesture.name:
+            name = "Move Right";
+            break;
+          case CustomGestures.MoveLeftGesture.name:
+            name = "Move Left";
+            break;
+
+          case Gestures.ThumbsUpGesture.name:
+            name = "Move Down";
+            break;
+          case Gestures.VictoryGesture.name:
+            name = "Rotate Right";
+            break;
+
+          default:
+            // Capitalise the first letter of each word and remove underscores
+            name = this.detection.name
+              .replace("_", " ")
+              .toLowerCase()
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ");
+            break;
         }
 
         return {
@@ -167,9 +178,9 @@ export default {
     },
 
     onError() {
-      this.$emit("onloaded");
+      this.$emit("on-loaded");
 
-      this.$buefy.dialog.alert({
+      Dialog.alert({
         title: "Error",
         message: "Sorry, but we are not able to access your webcam.",
         type: "is-danger",
@@ -179,9 +190,9 @@ export default {
     },
 
     onNotsupported() {
-      this.$emit("onloaded");
+      this.$emit("on-loaded");
 
-      this.$buefy.dialog.alert({
+      Dialog.alert({
         title: "Error",
         message: "Sorry, but your browser does not appear to be supported.",
         type: "is-danger",

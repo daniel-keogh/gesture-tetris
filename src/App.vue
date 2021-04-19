@@ -7,7 +7,7 @@
       <router-view />
     </template>
 
-    <camera v-show="modelLoaded" @on-loaded="onLoaded" />
+    <camera v-show="modelLoaded" @on-loaded="modelLoaded = true" />
   </div>
 </template>
 
@@ -27,12 +27,6 @@ export default {
     return {
       modelLoaded: false,
     };
-  },
-
-  methods: {
-    onLoaded() {
-      this.modelLoaded = true;
-    },
   },
 };
 </script>
