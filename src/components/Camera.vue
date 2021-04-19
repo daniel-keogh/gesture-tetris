@@ -1,8 +1,14 @@
 <template>
   <div class="camera card">
-    <p class="camera__most-recent subtitle is-2" v-show="mostRecent.length > 0">
-      {{ mostRecent }}
-    </p>
+    <div class="camera__most-recent" v-show="mostRecent.name.length > 0">
+      <p class="subtitle is-2 mb-0">
+        {{ mostRecent.name }}
+      </p>
+
+      <p class="subtitle is-2 mb-0">
+        {{ mostRecent.confidence }}
+      </p>
+    </div>
     <web-cam
       ref="webcam"
       :height="height"
@@ -53,24 +59,34 @@ export default {
 
   computed: {
     mostRecent() {
+      let name = "";
+
       if (this.detection.name) {
         if (this.detection.name === CustomGestures.MoveRightGesture.name) {
-          return "Move Left";
+          name = "Move Left";
         } else if (
           this.detection.name === CustomGestures.MoveLeftGesture.name
         ) {
-          return "Move Right";
+          name = "Move Right";
         } else {
           // Capitalise the first letter of each word and remove underscores
-          return this.detection.name
+          name = this.detection.name
             .replace("_", " ")
             .toLowerCase()
             .split(" ")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(" ");
         }
+
+        return {
+          name,
+          confidence: `${Math.floor(this.detection.confidence * 10)}%`,
+        };
       }
-      return "";
+      return {
+        name: "",
+        confidence: 0,
+      };
     },
   },
 
@@ -204,9 +220,15 @@ export default {
     top: 0;
     left: 0;
 
-    color: white;
     background-color: rgba($color: black, $alpha: 0.2);
     z-index: 11;
+
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      color: white;
+    }
   }
 
   @media (max-width: 1024px) {

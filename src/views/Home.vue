@@ -12,7 +12,9 @@
         >
           New Game {{ isPaused ? "👍" : "" }}
         </b-button>
-        <h3 class="subtitle is-1" v-if="isGameOver">Game Over!</h3>
+        <h3 class="subtitle is-1 has-text-center" v-if="isGameOver">
+          Game Over!
+        </h3>
       </div>
     </main>
   </div>
