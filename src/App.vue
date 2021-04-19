@@ -56,4 +56,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+.retro-title {
+  font-family: "VT323", monospace;
+}
 </style>

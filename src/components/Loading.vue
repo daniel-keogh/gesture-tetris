@@ -6,8 +6,8 @@
     class="loading"
   >
     <div>
-      <b-icon class="loading-icon"> </b-icon>
-      <div class="loading-message">
+      <b-icon class="loading__icon"> </b-icon>
+      <div class="loading__message">
         <p>{{ message }}</p>
       </div>
     </div>
@@ -37,9 +37,9 @@ export default {
 <style lang="scss" scoped>
 .loading {
   text-align: center;
-}
 
-.loading-message {
-  margin-top: 5rem;
+  &__message {
+    margin-top: 5rem;
+  }
 }
 </style>

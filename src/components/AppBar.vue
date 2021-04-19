@@ -3,7 +3,7 @@
     <b-navbar centered shadow>
       <template #brand>
         <b-navbar-item tag="router-link" to="/">
-          <h1 class="title">Gesture Tetris</h1>
+          <h1 class="title retro-title">Gesture Tetris</h1>
         </b-navbar-item>
       </template>
 
@@ -67,8 +67,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.title {
-  font-family: "VT323", monospace;
-}
-</style>
+<style lang="scss" scoped></style>

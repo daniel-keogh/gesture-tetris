@@ -9,6 +9,7 @@
         {{ mostRecent.confidence }}
       </p>
     </div>
+
     <web-cam
       ref="webcam"
       :height="height"
@@ -129,6 +130,7 @@ export default {
         if (hand.length > 0) {
           const GE = new GestureEstimator([
             Gestures.ThumbsUpGesture,
+            Gestures.VictoryGesture,
             // CustomGestures.MoveDownGesture,
             CustomGestures.MoveRightGesture,
             CustomGestures.MoveLeftGesture,
@@ -205,27 +207,30 @@ export default {
 .camera {
   transform: scale(-0.6, 0.6);
   translate: 20% 20%;
+
   position: fixed;
   bottom: 0;
   right: 0;
+
   width: 640px;
   height: 480px;
 
   &__most-recent {
     transform: scale(-1, 1);
-    font-size: 2rem;
-    text-align: left;
-    padding: 0.5rem 1rem;
 
     position: relative;
     top: 0;
     left: 0;
 
-    background-color: rgba($color: black, $alpha: 0.2);
+    font-size: 2rem;
+    text-align: left;
+    padding: 0.5rem 1rem;
     z-index: 11;
 
     display: flex;
     justify-content: space-between;
+
+    background-color: rgba($color: black, $alpha: 0.2);
 
     p {
       color: white;

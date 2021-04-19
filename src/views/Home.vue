@@ -13,7 +13,10 @@
           >
             New Game {{ isPaused ? "👍" : "" }}
           </b-button>
-          <h3 class="subtitle is-1 has-text-centered" v-if="isGameOver">
+          <h3
+            class="retro-title subtitle is-1 has-text-centered"
+            v-if="isGameOver"
+          >
             Game Over!
           </h3>
         </div>
@@ -78,9 +81,5 @@ export default {
   margin-right: auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-h3 {
-  font-family: "VT323", monospace;
 }
 </style>

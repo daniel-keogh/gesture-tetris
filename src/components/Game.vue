@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="score-container">
-      <p class="subtitle is-3 mb-2">Score:</p>
-      <p class="subtitle is-3 mb-2">{{ score }}</p>
+      <p class="subtitle is-3 mb-2 retro-title">Score:</p>
+      <p class="subtitle is-3 mb-2 retro-title">{{ score }}</p>
     </div>
     <canvas ref="gameCanvas" :height="height" :width="width"></canvas>
   </div>
@@ -141,9 +141,13 @@ export default {
         case CustomGestures.MoveDownGesture.name:
           this.dropPiece();
           break;
+        case "e":
+          // case CustomGestures.RotateRightGesture.name:
+          this.rotate(-1);
+          break;
         case "r":
           // case CustomGestures.RotateRightGesture.name:
-          this.rotate();
+          this.rotate(1);
           break;
         default:
           break;
@@ -168,9 +172,9 @@ export default {
     },
 
     /** Rotate's the player's piece. */
-    rotate() {
+    rotate(direction) {
       const position = this.player.position.x;
-      this.player.rotate();
+      this.player.rotate(direction);
 
       // Prevent pieces from rotating outside the edge of the board
       // Reference: https://www.youtube.com/watch?v=H2aW5V46khA
@@ -223,6 +227,5 @@ export default {
 .score-container {
   display: flex;
   justify-content: space-between;
-  font-family: "VT323", monospace;
 }
 </style>

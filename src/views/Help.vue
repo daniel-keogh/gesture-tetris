@@ -41,38 +41,32 @@ export default {
     return {
       data: [
         {
-          id: 1,
           gesture: "Thumbs-up.",
           description:
             "Starts a new game if there is currently not one in progress.",
           icon: "👍",
         },
         {
-          id: 2,
           gesture: "Index pointing left.",
           description: "Moves a piece to the left.",
           icon: "👈",
         },
         {
-          id: 3,
           gesture: "Index pointing right.",
           description: "Moves a piece to the right.",
           icon: "👉",
         },
         {
-          id: 4,
           gesture: "Okay sign.",
           description: "Moves a piece downwards.",
           icon: "👌",
         },
         {
-          id: 5,
           gesture: "Upwards-pointing index finger.",
           description: "Rotates a piece to the right.",
           icon: "☝️",
         },
         {
-          id: 5,
           gesture: `"Victory/Peace".`,
           description: "Rotates a piece to the left.",
           icon: "✌️",
@@ -85,10 +79,10 @@ export default {
 
 <style lang="scss" scoped>
 main {
+  max-width: 968px;
   margin-top: 2%;
   margin-left: auto;
   margin-right: auto;
-  max-width: 964px;
   padding: 1rem;
 }
 
