@@ -107,7 +107,6 @@ export default {
 
         if (hand.length > 0) {
           const GE = new GestureEstimator([
-            Gestures.VictoryGesture,
             Gestures.ThumbsUpGesture,
             // CustomGestures.MoveDownGesture,
             CustomGestures.MoveRightGesture,

@@ -1,4 +1,4 @@
-# Gestures Project
+# Gesture Tetris
 
 Y4S2 Gesture-Based UI Development Project.
 
@@ -10,7 +10,7 @@ A Tetris-clone playable using hand gestures. Built with Vue.js and TensorFlow.js
 
 First, please make sure you have [Node.js](https://nodejs.org/en/) installed on your system.
 
-You should then run the following to install the project dependencies.
+You should then run the following command to install the project's dependencies.
 
 ```sh
 $ npm install

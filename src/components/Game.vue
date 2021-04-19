@@ -37,7 +37,7 @@ export default {
 
       drop: {
         previous: 0, // Amount of time since the previous drop
-        interval: 1000, // 1 second
+        interval: 750, // 3/4 second
       },
 
       lastFrame: 0,
@@ -137,7 +137,7 @@ export default {
           this.dropPiece();
           break;
         case "r":
-        case CustomGestures.RotateRightGesture.name:
+          // case CustomGestures.RotateRightGesture.name:
           this.rotate();
           break;
         default:

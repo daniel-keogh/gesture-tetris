@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <template v-if="!modelLoaded">
-      <loading message="Loading hand detection model..." />
+      <loading message="👋 Loading hand detection model..." />
     </template>
     <template v-else>
       <router-view />
