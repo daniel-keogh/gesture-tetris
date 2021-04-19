@@ -7,13 +7,13 @@
         <div>
           <b-button
             type="is-primary"
-            class="mt-3 mb-6"
+            class="mt-3 mb-5"
             expanded
             @click="onNewGame"
           >
             New Game {{ isPaused ? "👍" : "" }}
           </b-button>
-          <h3 class="subtitle is-1 has-text-center" v-if="isGameOver">
+          <h3 class="subtitle is-1 has-text-centered" v-if="isGameOver">
             Game Over!
           </h3>
         </div>
@@ -76,8 +76,8 @@ export default {
   margin-top: 2%;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 1.4rem;
-  padding-bottom: 1.4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 h3 {

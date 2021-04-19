@@ -62,6 +62,7 @@ export default {
       let name = "";
 
       if (this.detection.name) {
+        // Flip left & right
         if (this.detection.name === CustomGestures.MoveRightGesture.name) {
           name = "Move Left";
         } else if (
@@ -114,7 +115,7 @@ export default {
       // Model has been loaded
       this.$emit("on-loaded");
 
-      // this.detect(model);
+      this.detect(model);
     },
 
     async detect(model) {

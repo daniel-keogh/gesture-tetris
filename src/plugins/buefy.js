@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from "vue";
 import {
   Button,
   Icon,
@@ -6,8 +6,8 @@ import {
   Navbar,
   Table,
   DialogProgrammatic,
-} from 'buefy';
-import 'buefy/dist/buefy.css';
+} from "buefy";
+import "buefy/dist/buefy.css";
 
 Vue.use(Button);
 Vue.use(Icon);

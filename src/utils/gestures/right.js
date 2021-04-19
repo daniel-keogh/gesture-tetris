@@ -6,9 +6,9 @@ import {
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from 'fingerpose';
+} from "fingerpose";
 
-const MoveRightGesture = new GestureDescription('move_right');
+const MoveRightGesture = new GestureDescription("move_right");
 
 MoveRightGesture.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1);
 MoveRightGesture.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1);

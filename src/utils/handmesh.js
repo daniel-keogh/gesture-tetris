@@ -19,11 +19,11 @@ const fingerJoints = {
 const styles = {
   fill: {
     size: 6,
-    colour: 'indigo',
+    colour: "indigo",
   },
   stroke: {
     size: 4,
-    colour: 'plum',
+    colour: "plum",
   },
 };
 
