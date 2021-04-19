@@ -10,7 +10,7 @@
           expanded
           @click="onNewGame"
         >
-          New Game
+          New Game {{ isPaused ? "👍" : "" }}
         </b-button>
         <h3 class="subtitle is-1" v-if="isGameOver">Game Over!</h3>
       </div>
@@ -54,8 +54,8 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  width: 240px;
-  margin-top: 5%;
+  width: 320px;
+  margin-top: 2%;
   margin-left: auto;
   margin-right: auto;
   padding-top: 1.4rem;

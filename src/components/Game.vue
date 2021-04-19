@@ -21,12 +21,17 @@ export default {
   data() {
     return {
       ctx: null,
-      height: 400,
-      width: 240,
+      height: 560,
+      width: 320,
       fillStyle: "black",
 
       player: null,
       grid: null,
+
+      gridSize: {
+        height: 28,
+        width: 16,
+      },
 
       drop: {
         previous: 0, // Amount of time since the previous drop
@@ -53,7 +58,12 @@ export default {
     /** Starts a new game. */
     start() {
       this.player = new Player(createRandomTetromino(this.ctx));
-      this.grid = new Grid(this.ctx, 12, 20, this.player);
+      this.grid = new Grid(
+        this.ctx,
+        this.gridSize.width,
+        this.gridSize.height,
+        this.player
+      );
 
       this.player.position = {
         x: this.calculateCenter(),
