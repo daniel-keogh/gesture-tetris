@@ -1,7 +1,6 @@
 /**
  * This file defines a pointing-to-the-left gesture (👈).
  */
-
 import {
   Finger,
   FingerCurl,

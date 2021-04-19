@@ -40,7 +40,7 @@ export default {
   },
 
   created() {
-    // Listen for gesture events
+    // Listen for a "thumbs-up" gesture to start the game
     GestureEventBus.$on("on-detection", (gesture) => {
       if (gesture.name === "thumbs_up" && this.isPaused) {
         this.onNewGame();

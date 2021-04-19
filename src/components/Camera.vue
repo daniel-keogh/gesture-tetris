@@ -52,13 +52,19 @@ export default {
   computed: {
     mostRecent() {
       if (this.detection.name) {
-        // Capitalise the first letter of each word and remove underscores
-        return this.detection.name
-          .replace("_", " ")
-          .toLowerCase()
-          .split(" ")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ");
+        if (this.detection.name === "move_right") {
+          return "Move Left";
+        } else if (this.detection.name === "move_left") {
+          return "Move Right";
+        } else {
+          // Capitalise the first letter of each word and remove underscores
+          return this.detection.name
+            .replace("_", " ")
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+        }
       }
       return "";
     },

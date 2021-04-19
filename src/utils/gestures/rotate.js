@@ -1,16 +1,15 @@
 /**
  * This file defines gestures for left & right rotation.
  */
-
 import {
   Finger,
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from "fingerpose";
+} from 'fingerpose';
 
 const RotateLeftGesture = (function () {
-  const rotateLeft = new GestureDescription("rotate_left");
+  const rotateLeft = new GestureDescription('rotate_left');
 
   // Thumb
   rotateLeft.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1);
@@ -27,7 +26,7 @@ const RotateLeftGesture = (function () {
 })();
 
 const RotateRightGesture = (function () {
-  const rotateRight = new GestureDescription("rotate_right");
+  const rotateRight = new GestureDescription('rotate_right');
 
   // Thumb
   rotateRight.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1);

@@ -9,7 +9,9 @@
 </template>
 
 <script>
+import { GestureEventBus } from "../main";
 import { Grid, Player, createRandomTetromino } from "../tetris";
+import CustomGestures from "../utils/gestures";
 
 export default {
   name: "Game",
@@ -43,6 +45,13 @@ export default {
     };
   },
 
+  created() {
+    // Listen for gesture events
+    GestureEventBus.$on("on-detection", (gesture) => {
+      this.input(gesture.name);
+    });
+  },
+
   mounted() {
     const canvas = this.$refs.gameCanvas;
     this.ctx = canvas.getContext("2d");
@@ -70,7 +79,7 @@ export default {
         y: 0,
       };
 
-      window.addEventListener("keydown", (e) => this.input(e));
+      window.addEventListener("keydown", (e) => this.input(e.key));
 
       // Start update loop
       this.update();
@@ -112,19 +121,23 @@ export default {
       }
     },
 
-    /** Handle keyboard events. */
-    input(event) {
-      switch (event.key) {
+    /** Handle keyboard & gesture events. */
+    input(action) {
+      switch (action) {
         case "ArrowLeft":
+        case CustomGestures.MoveRightGesture.name:
           this.move(-1);
           break;
         case "ArrowRight":
+        case CustomGestures.MoveLeftGesture.name:
           this.move(1);
           break;
         case "ArrowDown":
+        case CustomGestures.MoveDownGesture.name:
           this.dropPiece();
           break;
         case "r":
+        case CustomGestures.RotateRightGesture.name:
           this.rotate();
           break;
         default:

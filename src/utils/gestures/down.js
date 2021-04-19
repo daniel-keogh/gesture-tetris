@@ -1,15 +1,14 @@
 /**
  * This file defines a "move down" gesture.
  */
-
 import {
   Finger,
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from "fingerpose";
+} from 'fingerpose';
 
-const MoveDownGesture = new GestureDescription("move_down");
+const MoveDownGesture = new GestureDescription('move_down');
 
 // Thumb
 MoveDownGesture.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1);
