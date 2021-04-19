@@ -23,16 +23,21 @@ export default {
   data() {
     return {
       ctx: null,
-      height: 560,
-      width: 320,
-      fillStyle: "black",
+      height: 600,
+      width: 360,
+      fillStyle: "#240e28",
+
+      scale: {
+        x: 30,
+        y: 30,
+      },
 
       player: null,
       grid: null,
 
       gridSize: {
-        height: 28,
-        width: 16,
+        height: 20,
+        width: 12,
       },
 
       drop: {
@@ -58,7 +63,7 @@ export default {
 
     this.ctx.fillStyle = this.fillStyle;
     this.ctx.fillRect(0, 0, this.width, this.height);
-    this.ctx.scale(20, 20);
+    this.ctx.scale(this.scale.x, this.scale.y);
 
     this.start();
   },
@@ -218,6 +223,6 @@ export default {
 .score-container {
   display: flex;
   justify-content: space-between;
-  font-family: "VT323";
+  font-family: "VT323", monospace;
 }
 </style>

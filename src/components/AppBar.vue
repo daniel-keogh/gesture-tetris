@@ -69,6 +69,6 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-  font-family: "VT323";
+  font-family: "VT323", monospace;
 }
 </style>

@@ -36,6 +36,7 @@ export default {
     return {
       isPaused: true,
       isGameOver: false,
+      startMinConfidence: 8,
     };
   },
 
@@ -43,7 +44,9 @@ export default {
     // Listen for a "thumbs-up" gesture to start the game
     GestureEventBus.$on("on-detection", (gesture) => {
       if (gesture.name === "thumbs_up" && this.isPaused) {
-        this.onNewGame();
+        if (gesture.confidence >= this.startMinConfidence) {
+          this.onNewGame();
+        }
       }
     });
   },
@@ -65,7 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  width: 320px;
+  width: 360px;
   margin-top: 2%;
   margin-left: auto;
   margin-right: auto;

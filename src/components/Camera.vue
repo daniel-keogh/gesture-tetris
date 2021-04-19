@@ -52,9 +52,11 @@ export default {
   computed: {
     mostRecent() {
       if (this.detection.name) {
-        if (this.detection.name === "move_right") {
+        if (this.detection.name === CustomGestures.MoveRightGesture.name) {
           return "Move Left";
-        } else if (this.detection.name === "move_left") {
+        } else if (
+          this.detection.name === CustomGestures.MoveLeftGesture.name
+        ) {
           return "Move Right";
         } else {
           // Capitalise the first letter of each word and remove underscores
