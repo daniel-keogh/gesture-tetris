@@ -7,25 +7,26 @@ import {
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from "fingerpose";
+} from 'fingerpose';
 
-const MoveRightGesture = new GestureDescription("move_right");
+const MoveRightGesture = new GestureDescription('move_right');
 
-// Thumb
+MoveRightGesture.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1);
 MoveRightGesture.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1);
-MoveRightGesture.addDirection(Finger.Thumb, FingerDirection.VerticalUp, 0.25);
-
-// Index
-MoveRightGesture.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0);
+MoveRightGesture.addDirection(Finger.Thumb, FingerDirection.HorizontalRight, 1);
 MoveRightGesture.addDirection(
-  Finger.Index,
-  FingerDirection.HorizontalRight,
-  0.25
+  Finger.Thumb,
+  FingerDirection.DiagonalUpLeft,
+  0.5
 );
 
-for (let finger of [Finger.Middle, Finger.Ring, Finger.Pinky]) {
-  MoveRightGesture.addCurl(finger, FingerCurl.FullCurl, 0.75);
-  MoveRightGesture.addDirection(finger, FingerDirection.VerticalDown, 0.25);
+for (let finger of [Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky]) {
+  MoveRightGesture.addCurl(finger, FingerCurl.FullCurl, 1);
+  MoveRightGesture.addCurl(finger, FingerCurl.HalfCurl, 1);
+  MoveRightGesture.addDirection(finger, FingerDirection.VerticalDown, 1);
 }
+
+// Give additional weight to thumb
+MoveRightGesture.setWeight(Finger.Thumb, 2);
 
 export { MoveRightGesture };

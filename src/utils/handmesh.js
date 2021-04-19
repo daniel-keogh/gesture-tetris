@@ -19,15 +19,15 @@ const fingerJoints = {
 const styles = {
   fill: {
     size: 6,
-    colour: "indigo",
+    colour: 'indigo',
   },
   stroke: {
     size: 4,
-    colour: "plum",
+    colour: 'plum',
   },
 };
 
-export const drawHand = (predictions, ctx) => {
+export const drawHandMesh = (predictions, ctx) => {
   // Check if we have any predictions
   if (predictions.length > 0) {
     // Loop through each prediction

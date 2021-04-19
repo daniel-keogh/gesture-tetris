@@ -22,6 +22,8 @@
 import AppBar from "@/components/AppBar";
 import Game from "@/components/Game";
 
+import { GestureEventBus } from "../main";
+
 export default {
   name: "Home",
 
@@ -35,6 +37,15 @@ export default {
       isPaused: true,
       isGameOver: false,
     };
+  },
+
+  created() {
+    // Listen for gesture events
+    GestureEventBus.$on("on-detection", (gesture) => {
+      if (gesture.name === "thumbs_up" && this.isPaused) {
+        this.onNewGame();
+      }
+    });
   },
 
   methods: {

@@ -1,17 +1,16 @@
 <template>
-  <div>
+  <div class="camera">
+    <p class="camera__most-recent">{{ mostRecent }}</p>
     <web-cam
       ref="webcam"
       :height="height"
       :width="width"
       :device-id="deviceId"
       @started="onStarted"
-      @stopped="onStopped"
       @error="onError"
       @notsupported="onNotsupported"
       @cameras="onCameras"
       @camera-change="onCameraChange"
-      @video-live="onVideoLive"
     />
     <canvas ref="canvas" :height="height" :width="width" />
   </div>
@@ -20,12 +19,14 @@
 <script>
 import { WebCam } from "vue-web-cam";
 
+import { GestureEventBus } from "../main";
+
 import "@tensorflow/tfjs-backend-webgl";
 import * as handpose from "@tensorflow-models/handpose";
 import { Gestures, GestureEstimator } from "fingerpose";
 
-import { drawHand } from "../utils/handmesh";
-// import CustomGestures from "../utils/gestures";
+import { drawHandMesh } from "../utils/handmesh";
+import CustomGestures from "../utils/gestures";
 
 export default {
   name: "Camera",
@@ -38,10 +39,29 @@ export default {
     return {
       height: "480",
       width: "640",
+
       camera: null,
       deviceId: null,
       devices: [],
+
+      minConfidence: 6,
+      detection: "",
     };
+  },
+
+  computed: {
+    mostRecent() {
+      if (this.detection.name) {
+        // Capitalise the first letter of each word and remove underscores
+        return this.detection.name
+          .replace("_", " ")
+          .toLowerCase()
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+      return "";
+    },
   },
 
   watch: {
@@ -50,7 +70,7 @@ export default {
     },
 
     devices() {
-      // Once we have a list select the first one
+      // Once we have a list of devices, select the first one
       const first = this.devices[0];
 
       if (first) {
@@ -66,10 +86,9 @@ export default {
       await this.detect(model);
 
       // Model has been loaded
-      this.$emit("onloaded");
+      this.$emit("on-loaded");
 
-      // Detect hands at 100ms intervals
-      setInterval(() => this.detect(model), 100);
+      this.detect(model);
     },
 
     async detect(model) {
@@ -85,42 +104,41 @@ export default {
             Gestures.VictoryGesture,
             Gestures.ThumbsUpGesture,
             // CustomGestures.MoveDownGesture,
-            // CustomGestures.MoveRightGesture,
-            // CustomGestures.MoveLeftGesture,
+            CustomGestures.MoveRightGesture,
+            CustomGestures.MoveLeftGesture,
             // CustomGestures.RotateLeftGesture,
             // CustomGestures.RotateRightGesture,
           ]);
 
-          const estimation = GE.estimate(hand[0].landmarks, 8);
+          const estimation = GE.estimate(hand[0].landmarks, this.minConfidence);
 
           if (estimation.gestures.length > 0) {
-            // Emit the gesture with the largest confidence value
+            // Get the gesture with the largest confidence value
             const confidences = estimation.gestures.map((g) => g.confidence);
             const largest = confidences.indexOf(Math.max(...confidences));
 
-            this.$emit("ondetection", estimation.gestures[largest]);
+            this.detection = estimation.gestures[largest];
+
+            // Emit an event
+            GestureEventBus.onGestureDetected(estimation.gestures[largest]);
           }
         }
 
         // Draw hand mesh
         const ctx = canvasEl.getContext("2d");
         ctx.clearRect(0, 0, this.width, this.height);
-        drawHand(hand, ctx);
+        drawHandMesh(hand, ctx);
+
+        // Continue detection loop
+        requestAnimationFrame(() => this.detect(model));
       }
     },
 
-    onStarted(e) {
-      console.log("onStarted", e);
+    onStarted() {
       this.runHandpose();
     },
 
-    onStopped(e) {
-      console.log("onStopped", e);
-    },
-
-    onError(e) {
-      console.log("onError", e);
-
+    onError() {
       this.$emit("onloaded");
 
       this.$buefy.dialog.alert({
@@ -132,9 +150,7 @@ export default {
       });
     },
 
-    onNotsupported(e) {
-      console.log("onNotsupported", e);
-
+    onNotsupported() {
       this.$emit("onloaded");
 
       this.$buefy.dialog.alert({
@@ -149,27 +165,38 @@ export default {
 
     onCameras(cameras) {
       this.devices = cameras;
-      console.log("onCameras", cameras);
     },
 
     onCameraChange(deviceId) {
       this.deviceId = deviceId;
       this.camera = deviceId;
-      console.log("onCameraChange", deviceId);
-    },
-
-    onVideoLive(e) {
-      console.log("onVideoLive", e);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-canvas,
-video {
+.camera {
   transform: scale(-0.6, 0.6);
   translate: 20% 20%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 640px;
+  height: 480px;
+
+  &__most-recent {
+    transform: scale(-1, 1);
+    font-size: 2rem;
+    position: relative;
+    top: -3rem;
+    left: 0;
+    z-index: 11;
+  }
+}
+
+canvas,
+video {
   position: absolute;
   bottom: 0;
   right: 0;

@@ -96,7 +96,7 @@ export default {
     },
 
     draw() {
-      this.ctx.fillStyle = "black";
+      this.ctx.fillStyle = this.fillStyle;
       this.ctx.fillRect(0, 0, this.width, this.height);
 
       this.grid.draw();
