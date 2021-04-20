@@ -1,5 +1,9 @@
 import Matrix from "./Matrix";
 
+/**
+ * Represents the game board.
+ * Largely based on the implementation shown here: <https://www.youtube.com/watch?v=H2aW5V46khA>
+ */
 class Grid extends Matrix {
   /**
    * Creates a new Grid.
@@ -59,7 +63,6 @@ class Grid extends Matrix {
 
   /**
    * Sweep the filled rows.
-   * Reference: https://www.youtube.com/watch?v=H2aW5V46khA
    * @returns The number of rows spept.
    */
   sweep() {

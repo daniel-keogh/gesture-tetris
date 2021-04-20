@@ -83,22 +83,16 @@ export default {
           case CustomGestures.MoveLeftGesture.name:
             name = "Move Right";
             break;
-
-          case Gestures.ThumbsUpGesture.name:
-            name = "Move Down";
+          case CustomGestures.RotateLeftGesture.name:
+            name = "Rotate Left";
             break;
           case Gestures.VictoryGesture.name:
             name = "Rotate Right";
             break;
-
+          case Gestures.ThumbsUpGesture.name:
+            name = "Move Down";
+            break;
           default:
-            // Capitalise the first letter of each word and remove underscores
-            name = this.detection.name
-              .replace("_", " ")
-              .toLowerCase()
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ");
             break;
         }
 
@@ -107,8 +101,9 @@ export default {
           confidence: `${Math.floor(this.detection.confidence * 10)}%`,
         };
       }
+
       return {
-        name: "",
+        name,
         confidence: 0,
       };
     },
@@ -153,11 +148,9 @@ export default {
           const GE = new GestureEstimator([
             Gestures.ThumbsUpGesture,
             Gestures.VictoryGesture,
-            // CustomGestures.MoveDownGesture,
             CustomGestures.MoveRightGesture,
             CustomGestures.MoveLeftGesture,
-            // CustomGestures.RotateLeftGesture,
-            // CustomGestures.RotateRightGesture,
+            CustomGestures.RotateLeftGesture,
           ]);
 
           const estimation = GE.estimate(hand[0].landmarks, this.minConfidence);
@@ -258,22 +251,24 @@ export default {
   }
 
   &__hide {
-    & > * {
-      display: none;
-    }
+    height: 100%;
+    width: 100%;
 
     position: absolute;
     top: 0;
     left: 0;
+    transform: scale(-1, 1);
+    z-index: 20;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    transform: scale(-1, 1);
-    z-index: 20;
-
     transition: all 0.5s;
+
+    & > * {
+      display: none;
+    }
 
     &:hover {
       background-color: rgba($color: black, $alpha: 0.5);
@@ -282,9 +277,6 @@ export default {
         display: inline-flex;
       }
     }
-
-    height: 100%;
-    width: 100%;
   }
 
   @media (max-width: 1024px) {

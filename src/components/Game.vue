@@ -33,9 +33,6 @@ export default {
         y: 30,
       },
 
-      player: null,
-      grid: null,
-
       gridSize: {
         height: 20,
         width: 12,
@@ -47,11 +44,14 @@ export default {
       },
 
       gestureInput: {
-        previous: 0, // Amount of time since the previous gesture movement
+        previous: -750, // Amount of time since the previous gesture movement
         delay: 750, // Delay between gesture inputs
       },
 
       lastFrame: 0,
+
+      player: null,
+      grid: null,
       score: 0,
     };
   },
@@ -159,29 +159,31 @@ export default {
 
     /** Handle gesture events. */
     onGetureInput(action) {
-      if (this.gestureInput.previous > this.gestureInput.delay) {
-        switch (action) {
-          case CustomGestures.MoveRightGesture.name:
-            this.move(-1);
-            break;
-          case CustomGestures.MoveLeftGesture.name:
-            this.move(1);
-            break;
-          case Gestures.ThumbsUpGesture.name:
-            this.dropPiece();
-            break;
-          // case CustomGestures.RotateRightGesture.name:
-          //   this.rotate(-1);
-          //   break;
-          case Gestures.VictoryGesture.name:
-            this.rotate(1);
-            break;
-          default:
-            break;
-        }
-
-        this.gestureInput.previous = 0;
+      if (this.gestureInput.previous <= this.gestureInput.delay) {
+        return;
       }
+
+      switch (action) {
+        case CustomGestures.MoveRightGesture.name:
+          this.move(-1);
+          break;
+        case CustomGestures.MoveLeftGesture.name:
+          this.move(1);
+          break;
+        case Gestures.ThumbsUpGesture.name:
+          this.dropPiece();
+          break;
+        case CustomGestures.RotateRightGesture.name:
+          this.rotate(-1);
+          break;
+        case Gestures.VictoryGesture.name: // Rotate left
+          this.rotate(1);
+          break;
+        default:
+          break;
+      }
+
+      this.gestureInput.previous = 0;
     },
 
     /** Drops the player down by one space. */
@@ -237,6 +239,7 @@ export default {
       }
     },
 
+    /** Used for spawning pieces at the board's center point. */
     calculateCenter() {
       return (
         Math.floor(this.grid.matrix[0].length / 2) -
@@ -244,6 +247,7 @@ export default {
       );
     },
 
+    /** Restarts the game. */
     restart() {
       this.resetPlayer();
       this.grid.reset();

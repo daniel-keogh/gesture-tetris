@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import { Button, Icon, Loading, Navbar, Table } from 'buefy';
-import 'buefy/dist/buefy.css';
+import Vue from "vue";
+import { Button, Icon, Loading, Navbar, Table } from "buefy";
+import "buefy/dist/buefy.css";
 
 Vue.use(Button);
 Vue.use(Icon);

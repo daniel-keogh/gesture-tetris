@@ -67,7 +67,7 @@ export default {
           icon: "☝️",
         },
         {
-          gesture: `"Victory/Peace".`,
+          gesture: `"Victory"/"Peace".`,
           description: "Rotates a piece to the left.",
           icon: "✌️",
         },
