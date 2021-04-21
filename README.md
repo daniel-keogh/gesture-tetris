@@ -42,7 +42,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Heroku Deployment
 
-The app is deployed to Heroku at [this](https://gestures-project.herokuapp.com) link. You can push to your own Heroku server by first installing the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and then running the following commands:
+The app is deployed to Heroku at [this](https://gesture-tetris.herokuapp.com) link. You can push to your own Heroku server by first installing the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and then running the following commands:
 
 ```sh
 $ heroku login -i
