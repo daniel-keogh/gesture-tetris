@@ -65,7 +65,7 @@ export default {
       deviceId: null,
       devices: [],
 
-      minConfidence: 6,
+      minConfidence: 7,
       detection: "",
     };
   },
@@ -77,20 +77,23 @@ export default {
       if (this.detection.name) {
         switch (this.detection.name) {
           // Flip left & right
-          case CustomGestures.MoveRightGesture.name:
+          case CustomGestures.PointingRightGesture.name:
             name = "Move Left";
             break;
-          case CustomGestures.MoveLeftGesture.name:
+          case CustomGestures.PointingLeftGesture.name:
             name = "Move Right";
             break;
-          case CustomGestures.RotateLeftGesture.name:
+          case CustomGestures.PointingUpwardsGesture.name:
             name = "Rotate Left";
             break;
           case Gestures.VictoryGesture.name:
             name = "Rotate Right";
             break;
-          case Gestures.ThumbsUpGesture.name:
+          case CustomGestures.ThumbsDownGesture.name:
             name = "Move Down";
+            break;
+          case Gestures.ThumbsUpGesture.name:
+            name = "New Game";
             break;
           default:
             break;
@@ -146,11 +149,12 @@ export default {
 
         if (hand.length > 0) {
           const GE = new GestureEstimator([
-            Gestures.ThumbsUpGesture,
             Gestures.VictoryGesture,
-            CustomGestures.MoveRightGesture,
-            CustomGestures.MoveLeftGesture,
-            CustomGestures.RotateLeftGesture,
+            Gestures.ThumbsUpGesture,
+            CustomGestures.PointingLeftGesture,
+            CustomGestures.PointingRightGesture,
+            CustomGestures.PointingUpwardsGesture,
+            CustomGestures.ThumbsDownGesture,
           ]);
 
           const estimation = GE.estimate(hand[0].landmarks, this.minConfidence);

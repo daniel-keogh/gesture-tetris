@@ -44,7 +44,7 @@ export default {
       },
 
       gestureInput: {
-        previous: -750, // Amount of time since the previous gesture movement
+        previous: 0, // Amount of time since the previous gesture movement
         delay: 750, // Delay between gesture inputs
       },
 
@@ -98,6 +98,7 @@ export default {
 
     /** The game's update method. Gets called on every frame. */
     update(frame = 0) {
+      // Get time since last update
       const deltaTime = frame - this.lastFrame;
 
       this.lastFrame = frame;
@@ -164,19 +165,19 @@ export default {
       }
 
       switch (action) {
-        case CustomGestures.MoveRightGesture.name:
+        case CustomGestures.PointingRightGesture.name:
           this.move(-1);
           break;
-        case CustomGestures.MoveLeftGesture.name:
+        case CustomGestures.PointingLeftGesture.name:
           this.move(1);
           break;
-        case Gestures.ThumbsUpGesture.name:
+        case CustomGestures.ThumbsDownGesture.name:
           this.dropPiece();
           break;
-        case CustomGestures.RotateRightGesture.name:
+        case CustomGestures.PointingUpwardsGesture.name:
           this.rotate(-1);
           break;
-        case Gestures.VictoryGesture.name: // Rotate left
+        case Gestures.VictoryGesture.name:
           this.rotate(1);
           break;
         default:

@@ -43,7 +43,7 @@ export default {
         {
           gesture: "Thumbs-up.",
           description:
-            "Starts a new game if there is currently not one in progress. Moves a piece downwards if a game is in progress.",
+            "Starts a new game if there is currently not one in progress.",
           icon: "👍",
         },
         {

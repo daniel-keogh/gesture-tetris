@@ -1,9 +1,11 @@
-import { MoveLeftGesture } from "./moveLeft";
-import { MoveRightGesture } from "./moveRight";
-import { RotateLeftGesture } from "./rotateLeft";
+import PointingLeftGesture from './PointingLeft';
+import PointingRightGesture from './PointingRight';
+import PointingUpwardsGesture from './PointingUpwards';
+import ThumbsDownGesture from './ThumbsDown';
 
 export default {
-  MoveRightGesture,
-  MoveLeftGesture,
-  RotateLeftGesture,
+  PointingLeftGesture,
+  PointingRightGesture,
+  PointingUpwardsGesture,
+  ThumbsDownGesture,
 };
