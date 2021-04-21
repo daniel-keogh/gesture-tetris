@@ -67,7 +67,7 @@ export default {
       devices: [],
 
       GE: null,
-      minConfidence: 7,
+      minConfidence: 8,
       detection: {
         name: "",
         confidence: 0,
