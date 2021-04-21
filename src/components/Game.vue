@@ -90,7 +90,7 @@ export default {
         y: 0,
       };
 
-      window.addEventListener("keydown", (e) => this.onKeyInput(e.key));
+      window.addEventListener("keydown", (e) => this.onInput(e.key));
 
       // Start update loop
       this.update();
@@ -135,22 +135,27 @@ export default {
       }
     },
 
-    /** Handle keyboard events. */
-    onKeyInput(action) {
+    /** Respond to keyboard/gesture input events. */
+    onInput(action) {
       switch (action) {
         case "ArrowLeft":
+        case CustomGestures.PointingRightGesture.name:
           this.move(-1);
           break;
         case "ArrowRight":
+        case CustomGestures.PointingLeftGesture.name:
           this.move(1);
           break;
         case "ArrowDown":
+        case CustomGestures.ThumbsDownGesture.name:
           this.dropPiece();
           break;
         case "e":
+        case CustomGestures.PointingUpwardsGesture.name:
           this.rotate(-1);
           break;
         case "r":
+        case Gestures.VictoryGesture.name:
           this.rotate(1);
           break;
         default:
@@ -164,25 +169,7 @@ export default {
         return;
       }
 
-      switch (action) {
-        case CustomGestures.PointingRightGesture.name:
-          this.move(-1);
-          break;
-        case CustomGestures.PointingLeftGesture.name:
-          this.move(1);
-          break;
-        case CustomGestures.ThumbsDownGesture.name:
-          this.dropPiece();
-          break;
-        case CustomGestures.PointingUpwardsGesture.name:
-          this.rotate(-1);
-          break;
-        case Gestures.VictoryGesture.name:
-          this.rotate(1);
-          break;
-        default:
-          break;
-      }
+      this.onInput(action);
 
       this.gestureInput.previous = 0;
     },
@@ -212,6 +199,7 @@ export default {
       // Prevent pieces from rotating outside the edge of the board
       // Reference: https://www.youtube.com/watch?v=H2aW5V46khA
       let offset = 1;
+
       while (this.grid.collision()) {
         this.player.position.x += offset;
         offset = -(offset + (offset > 0 ? 1 : -1));

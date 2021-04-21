@@ -8,9 +8,9 @@ import {
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from 'fingerpose';
+} from "fingerpose";
 
-const thumbsDown = new GestureDescription('thumbs_down');
+const thumbsDown = new GestureDescription("thumbs_down");
 
 thumbsDown.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0);
 thumbsDown.addDirection(Finger.Thumb, FingerDirection.VerticalDown, 1.0);

@@ -6,9 +6,9 @@ import {
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from 'fingerpose';
+} from "fingerpose";
 
-const pointingRight = new GestureDescription('pointing_right');
+const pointingRight = new GestureDescription("pointing_right");
 
 // Thumb
 pointingRight.addCurl(Finger.Thumb, FingerCurl.FullCurl, 0.2);

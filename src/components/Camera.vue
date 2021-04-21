@@ -130,6 +130,7 @@ export default {
 
   methods: {
     async runHandpose() {
+      // Load the Handpose model
       const model = await handpose.load();
       await this.detect(model);
 

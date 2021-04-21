@@ -1,7 +1,7 @@
-import PointingLeftGesture from './PointingLeft';
-import PointingRightGesture from './PointingRight';
-import PointingUpwardsGesture from './PointingUpwards';
-import ThumbsDownGesture from './ThumbsDown';
+import PointingLeftGesture from "./PointingLeft";
+import PointingRightGesture from "./PointingRight";
+import PointingUpwardsGesture from "./PointingUpwards";
+import ThumbsDownGesture from "./ThumbsDown";
 
 export default {
   PointingLeftGesture,

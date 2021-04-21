@@ -6,9 +6,9 @@ import {
   FingerCurl,
   FingerDirection,
   GestureDescription,
-} from 'fingerpose';
+} from "fingerpose";
 
-const pointingUpwards = new GestureDescription('pointing_upwards');
+const pointingUpwards = new GestureDescription("pointing_upwards");
 
 // Thumb
 pointingUpwards.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 0.5);

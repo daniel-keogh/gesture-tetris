@@ -4,7 +4,7 @@ Y4S2 Gesture-Based UI Development Project.
 
 ## Description
 
-A Tetris-clone playable using hand gestures. Built with Vue.js and TensorFlow.js.
+A Tetris-clone playable using hand gestures. Built with Vue.js and [Fingerpose](https://github.com/andypotato/fingerpose).
 
 ## Project Setup
 
@@ -22,7 +22,7 @@ $ npm install
 $ npm run serve
 ```
 
-You should then be able to open a local dev server at http://localhost:8080.
+You should then be able to view the application in your browser at http://localhost:8080.
 
 ### Create a Production Build
 
@@ -46,12 +46,8 @@ The app is deployed to Heroku at [this](https://gestures-project.herokuapp.com) 
 
 ```sh
 $ heroku login -i
-
 $ heroku create
-
 $ heroku buildpacks:add heroku/nodejs
-
 $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-static
-
 $ git push heroku main
 ```
