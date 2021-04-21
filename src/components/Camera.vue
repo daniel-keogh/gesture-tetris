@@ -15,7 +15,7 @@
       :height="height"
       :width="width"
       :device-id="deviceId"
-      @started="onStarted"
+      @started="loadHandpose"
       @error="onError"
       @notsupported="onNotsupported"
       @cameras="onCameras"
@@ -58,56 +58,66 @@ export default {
 
   data() {
     return {
-      height: "480",
-      width: "640",
+      ctx: null,
+      height: 480,
+      width: 640,
 
       camera: null,
       deviceId: null,
       devices: [],
 
+      GE: null,
       minConfidence: 7,
-      detection: "",
+      detection: {
+        name: "",
+        confidence: 0,
+      },
     };
+  },
+
+  mounted() {
+    this.ctx = this.$refs.canvas.getContext("2d");
+
+    this.GE = new GestureEstimator([
+      Gestures.VictoryGesture,
+      Gestures.ThumbsUpGesture,
+      CustomGestures.PointingLeftGesture,
+      CustomGestures.PointingRightGesture,
+      CustomGestures.PointingUpwardsGesture,
+      CustomGestures.ThumbsDownGesture,
+    ]);
   },
 
   computed: {
     mostRecent() {
       let name = "";
 
-      if (this.detection.name) {
-        switch (this.detection.name) {
-          // Flip left & right
-          case CustomGestures.PointingRightGesture.name:
-            name = "Move Left";
-            break;
-          case CustomGestures.PointingLeftGesture.name:
-            name = "Move Right";
-            break;
-          case CustomGestures.PointingUpwardsGesture.name:
-            name = "Rotate Left";
-            break;
-          case Gestures.VictoryGesture.name:
-            name = "Rotate Right";
-            break;
-          case CustomGestures.ThumbsDownGesture.name:
-            name = "Move Down";
-            break;
-          case Gestures.ThumbsUpGesture.name:
-            name = "New Game";
-            break;
-          default:
-            break;
-        }
-
-        return {
-          name,
-          confidence: `${Math.floor(this.detection.confidence * 10)}%`,
-        };
+      switch (this.detection.name) {
+        case CustomGestures.PointingRightGesture.name:
+          name = "Move Left"; // Left & Right are flipped
+          break;
+        case CustomGestures.PointingLeftGesture.name:
+          name = "Move Right"; // Left & Right are flipped
+          break;
+        case Gestures.VictoryGesture.name:
+          name = "Rotate Left";
+          break;
+        case CustomGestures.PointingUpwardsGesture.name:
+          name = "Rotate Right";
+          break;
+        case CustomGestures.ThumbsDownGesture.name:
+          name = "Move Down";
+          break;
+        case Gestures.ThumbsUpGesture.name:
+          name = "New Game";
+          break;
+        default:
+          break;
       }
 
       return {
         name,
-        confidence: 0,
+        confidence: `${Math.floor((this.detection.confidence ?? 0) * 10)}%`,
       };
     },
   },
@@ -129,84 +139,60 @@ export default {
   },
 
   methods: {
-    async runHandpose() {
+    async loadHandpose() {
       // Load the Handpose model
       const model = await handpose.load();
       await this.detect(model);
 
-      // Model has been loaded
       this.$emit("on-loaded");
-
-      this.detect(model);
     },
 
     async detect(model) {
       const videoEl = this.$refs.webcam?.$el;
-      const canvasEl = this.$refs.canvas;
 
       if (videoEl && videoEl.readyState === 4) {
-        // Make Detections
+        // Make detections from the webcam
         const hand = await model.estimateHands(videoEl);
 
         if (hand.length > 0) {
-          const GE = new GestureEstimator([
-            Gestures.VictoryGesture,
-            Gestures.ThumbsUpGesture,
-            CustomGestures.PointingLeftGesture,
-            CustomGestures.PointingRightGesture,
-            CustomGestures.PointingUpwardsGesture,
-            CustomGestures.ThumbsDownGesture,
-          ]);
-
-          const estimation = GE.estimate(hand[0].landmarks, this.minConfidence);
+          const estimation = this.GE.estimate(
+            hand[0].landmarks,
+            this.minConfidence
+          );
 
           if (estimation.gestures.length > 0) {
-            // Get the gesture with the largest confidence value
+            // Get the gesture with the largest confidence & emit it in an event
             const confidences = estimation.gestures.map((g) => g.confidence);
             const largest = confidences.indexOf(Math.max(...confidences));
 
             this.detection = estimation.gestures[largest];
 
-            // Emit an event
-            GestureEventBus.onGestureDetected(estimation.gestures[largest]);
+            GestureEventBus.$emit("on-detection", estimation.gestures[largest]);
           }
         }
 
         // Draw hand mesh
-        const ctx = canvasEl.getContext("2d");
-        ctx.clearRect(0, 0, this.width, this.height);
-        drawHandMesh(hand, ctx);
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        drawHandMesh(hand, this.ctx);
 
         // Continue detection loop
         requestAnimationFrame(() => this.detect(model));
       }
     },
 
-    onStarted() {
-      this.runHandpose();
-    },
-
     onError() {
       this.$emit("on-loaded");
 
-      Dialog.alert({
-        title: "Error",
+      this.showErrorDialog({
         message: "Sorry, but we are not able to access your webcam.",
-        type: "is-danger",
-        hasIcon: true,
-        icon: "alert-outline",
       });
     },
 
     onNotsupported() {
       this.$emit("on-loaded");
 
-      Dialog.alert({
-        title: "Error",
+      this.showErrorDialog({
         message: "Sorry, but your browser does not appear to be supported.",
-        type: "is-danger",
-        hasIcon: true,
-        icon: "alert-outline",
         onConfirm: () => this.$router.go(-1),
       });
     },
@@ -218,6 +204,17 @@ export default {
     onCameraChange(deviceId) {
       this.deviceId = deviceId;
       this.camera = deviceId;
+    },
+
+    showErrorDialog({ title = "Error", message, onConfirm }) {
+      Dialog.alert({
+        title,
+        message,
+        type: "is-danger",
+        hasIcon: true,
+        icon: "alert-outline",
+        onConfirm,
+      });
     },
   },
 };

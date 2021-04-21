@@ -6,13 +6,7 @@ import "./plugins/buefy.js";
 
 Vue.config.productionTip = false;
 
-export const GestureEventBus = new Vue({
-  methods: {
-    onGestureDetected(gesture) {
-      this.$emit("on-detection", gesture);
-    },
-  },
-});
+export const GestureEventBus = new Vue();
 
 new Vue({
   router,

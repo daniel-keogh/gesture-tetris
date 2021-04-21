@@ -45,7 +45,7 @@ export default {
 
       gestureInput: {
         previous: 0, // Amount of time since the previous gesture movement
-        delay: 750, // Delay between gesture inputs
+        delay: 850, // Delay between gesture inputs
       },
 
       lastFrame: 0,
@@ -151,11 +151,11 @@ export default {
           this.dropPiece();
           break;
         case "e":
-        case CustomGestures.PointingUpwardsGesture.name:
+        case Gestures.VictoryGesture.name:
           this.rotate(-1);
           break;
         case "r":
-        case Gestures.VictoryGesture.name:
+        case CustomGestures.PointingUpwardsGesture.name:
           this.rotate(1);
           break;
         default:
