@@ -3,9 +3,23 @@ import PointingRightGesture from "./PointingRight";
 import PointingUpwardsGesture from "./PointingUpwards";
 import ThumbsDownGesture from "./ThumbsDown";
 
-export default {
+import { Gestures, GestureEstimator } from "fingerpose";
+
+// Initialise the estimator
+const GE = new GestureEstimator([
+  Gestures.VictoryGesture,
+  Gestures.ThumbsUpGesture,
+  PointingLeftGesture,
+  PointingRightGesture,
+  PointingUpwardsGesture,
+  ThumbsDownGesture,
+]);
+
+const CustomGestures = {
   PointingLeftGesture,
   PointingRightGesture,
   PointingUpwardsGesture,
   ThumbsDownGesture,
 };
+
+export { CustomGestures, GE };

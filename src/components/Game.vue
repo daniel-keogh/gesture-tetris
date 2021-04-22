@@ -11,7 +11,7 @@
 <script>
 import { GestureEventBus } from "../main";
 import { Grid, Player, createRandomTetromino } from "../tetris";
-import CustomGestures from "../utils/gestures";
+import { CustomGestures } from "../utils/gestures";
 import { Gestures } from "fingerpose";
 
 export default {

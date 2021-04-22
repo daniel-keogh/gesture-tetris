@@ -44,10 +44,9 @@ import { GestureEventBus } from "../main";
 
 import "@tensorflow/tfjs-backend-webgl";
 import * as handpose from "@tensorflow-models/handpose";
-import { Gestures, GestureEstimator } from "fingerpose";
-
+import { Gestures } from "fingerpose";
+import { CustomGestures, GE } from "../utils/gestures";
 import { drawHandMesh } from "../utils/handmesh";
-import CustomGestures from "../utils/gestures";
 
 export default {
   name: "Camera",
@@ -66,7 +65,6 @@ export default {
       deviceId: null,
       devices: [],
 
-      GE: null,
       minConfidence: 8,
       detection: {
         name: "",
@@ -77,15 +75,6 @@ export default {
 
   mounted() {
     this.ctx = this.$refs.canvas.getContext("2d");
-
-    this.GE = new GestureEstimator([
-      Gestures.VictoryGesture,
-      Gestures.ThumbsUpGesture,
-      CustomGestures.PointingLeftGesture,
-      CustomGestures.PointingRightGesture,
-      CustomGestures.PointingUpwardsGesture,
-      CustomGestures.ThumbsDownGesture,
-    ]);
   },
 
   computed: {
@@ -155,10 +144,7 @@ export default {
         const hand = await model.estimateHands(videoEl);
 
         if (hand.length > 0) {
-          const estimation = this.GE.estimate(
-            hand[0].landmarks,
-            this.minConfidence
-          );
+          const estimation = GE.estimate(hand[0].landmarks, this.minConfidence);
 
           if (estimation.gestures.length > 0) {
             // Get the gesture with the largest confidence & emit it in an event
