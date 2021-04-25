@@ -40,12 +40,12 @@ export default {
 
       drop: {
         previous: 0, // Amount of time since the previous drop
-        delay: 750, // 3/4 second
+        delay: 500, // 1/2 second
       },
 
       gestureInput: {
         previous: 0, // Amount of time since the previous gesture movement
-        delay: 850, // Delay between gesture inputs
+        delay: 800, // Delay between gesture inputs
       },
 
       lastFrame: 0,
